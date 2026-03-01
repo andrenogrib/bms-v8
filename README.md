@@ -180,6 +180,20 @@ Exemplo de `client.log` valido:
 - `Hook status: CREATED`
 - `Client initialized`
 
+## 9) Cuidado com encoding e tags de script
+
+- Scripts em `Server/DataSvr/Script` podem estar em `Windows-1252` (nao UTF-8).
+- Se abrir/salvar com encoding errado, o texto pode quebrar nos arquivos.
+- As falas de NPC usam tags como:
+  - `#b` (texto azul)
+  - `#t<ID>#` (nome dinamico de item)
+  - `#k` (volta para cor padrao)
+
+Referencia detalhada:
+
+- `docs/encoding-e-tags-script.md`
+- `docs/sp-primeira-job-e-compensacao.md`
+
 ## Troubleshooting rapido
 
 ### PowerShell e `start ""`
