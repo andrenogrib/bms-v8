@@ -215,7 +215,4 @@ Apos `docker compose restart bms_server`, aguarde o `Center` completar boot.
 
 ## Observacoes
 
-- `Kinoko`/`AdminClient` nao sao necessarios para o fluxo acima funcionar.
-- `BMSv8.exe`/clientes localhost alternativos podem nao passar do login em alguns ambientes.
-- `DevilMS.exe` pode crashar em alguns ambientes modernos.
-- Este setup e para estudo/preservacao de software antigo.
+- Este setup e para estudo, pesquisa tecnica e preservacao de software antigo. E proibida a comercializacao, monetizacao ou qualquer uso com finalidade financeira deste material.
