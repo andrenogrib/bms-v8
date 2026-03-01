@@ -16,14 +16,11 @@ O fluxo que funcionou de ponta a ponta foi:
 Projeto baseado em engenharia reversa dos binarios originais com auxilio de ferramentas como IDA e SQL Profiler.
 Creditos aos devs que fizeram o trabalho original de reversao/preservacao.
 
-## Arquivos uteis
+## Server files
 
-- Server files leak (post antigo):
-  [https://www.mediafire.com/file/z0vkal61ymwyxlw/5366a09f4e67570decdbef93468edf19.tar.bz2](https://www.mediafire.com/file/z0vkal61ymwyxlw/5366a09f4e67570decdbef93468edf19.tar.bz2)
-- Clientes localhost prontos:
-  [https://msdl.xyz](https://msdl.xyz)
+[Link available since 2014](https://www.mediafire.com/file/z0vkal61ymwyxlw/5366a09f4e67570decdbef93468edf19.tar.bz2)
 
-## Pre-requisitos
+## Before starting
 
 - Windows com Docker Desktop funcionando.
 - `winget` funcionando (para instalar Build Tools).
