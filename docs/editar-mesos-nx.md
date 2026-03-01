@@ -34,6 +34,22 @@ docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00
 docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "SELECT C.CharacterName,C.S_Money,A.NexonCash,A.maplePoint FROM GameWorld.dbo.Character C JOIN GlobalAccount.dbo.Account A ON A.AccountID=C.AccountID WHERE C.CharacterName='FangBlade';"
 ```
 
+## 6) Se os mesos "voltarem" para o valor antigo
+
+Isso normalmente acontece quando o servidor ainda nao terminou de iniciar e/ou a sessao ainda esta sendo atualizada enquanto voce testa.
+
+Fluxo que foi validado:
+
+1. Fazer o `UPDATE` com o cliente fechado.
+2. Esperar o servidor ficar 100% online (Login + Center + Games + Shop conectados).
+3. So depois abrir o client e entrar.
+
+Sem usar limpeza forcada de conexao e sem restart extra.
+
+Referencias do checklist de status:
+
+- `docs/verificar-status-servicos-center.md`
+
 ## Observacoes
 
 - `S_Money`, `NexonCash` e `maplePoint` sao `int`. Evite passar de `2147483647`.
@@ -43,3 +59,8 @@ docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00
 docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "SELECT TOP 50 CharacterName FROM GameWorld.dbo.Character ORDER BY CharacterID DESC;"
 ```
 
+Comando opcional para garantir que Mesos e NX ficaram como esperado:
+
+```powershell
+docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "SELECT C.CharacterName,C.S_Money,A.NexonCash,A.maplePoint FROM GameWorld.dbo.Character C JOIN GlobalAccount.dbo.Account A ON A.AccountID=C.AccountID WHERE C.CharacterName='FangBlade';"
+```
