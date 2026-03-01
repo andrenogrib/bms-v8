@@ -11,6 +11,8 @@ O fluxo que funcionou de ponta a ponta foi:
 4. Criar `server.txt`.
 5. Abrir o jogo pelo `GameLauncher.exe` (administrador).
 
+Importante: neste setup validado, o cliente usado foi o `MapleStory.exe` original.
+
 ## Creditos
 
 Projeto baseado em engenharia reversa dos binarios originais com auxilio de ferramentas como IDA e SQL Profiler.
@@ -94,13 +96,6 @@ MapleStory.exe
 MapleStory.exe 127.0.0.1 8484
 ```
 
-### Alternativa (cliente patchado BMSv8_2):
-
-```txt
-BMSv8_2.exe
-BMSv8_2.exe 127.0.0.1 8484
-```
-
 ## 5) Abrir cliente do jeito certo
 
 Abrir sempre pelo launcher, com privilegios de administrador:
@@ -112,7 +107,7 @@ Start-Process -FilePath .\GameLauncher.exe -WorkingDirectory (Get-Location) -Ver
 
 Importante:
 
-- Nao abrir o jogo direto pelo `MapleStory.exe`/`BMSv8_2.exe` para login final.
+- Nao abrir o jogo direto pelo `MapleStory.exe` para login final.
 - `GameLauncher.exe` precisa achar `client.dll` e `server.txt` na mesma pasta.
 
 ## 6) Contas padrao
@@ -163,10 +158,12 @@ Exemplo de `client.log` valido:
 No PowerShell, use:
 
 ```powershell
-Start-Process -FilePath .\BMSv8_2.exe -ArgumentList '127.0.0.1','8484'
+Start-Process -FilePath .\MapleStory.exe -ArgumentList '127.0.0.1','8484'
 ```
 
 `start "" ...` e sintaxe de `cmd`, nao do PowerShell.
+
+Obs.: para jogar de fato, use `GameLauncher.exe` como no passo 5.
 
 ### Login aceita conexao e desconecta na hora
 
@@ -190,5 +187,6 @@ Apos `docker compose restart bms_server`, aguarde o `Center` completar boot.
 ## Observacoes
 
 - `Kinoko`/`AdminClient` nao sao necessarios para o fluxo acima funcionar.
+- `BMSv8.exe`/clientes localhost alternativos podem nao passar do login em alguns ambientes.
 - `DevilMS.exe` pode crashar em alguns ambientes modernos.
 - Este setup e para estudo/preservacao de software antigo.
