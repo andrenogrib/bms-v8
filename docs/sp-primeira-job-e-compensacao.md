@@ -17,15 +17,44 @@ Ou seja: se o jogador sobe levels como Beginner e so depois faz 1a job, este sou
 
 ## Opcao 2 (aplicada agora, sem alterar script)
 
-Foi aplicada compensacao manual no banco somente para o `FangBlade`:
+Foi aplicada compensacao manual no banco somente para o `FangBlade`.
+
+Importante: para o valor aparecer no jogo, o personagem/conta precisa estar offline (sem sessao ativa em `UserConnection.dbo.Connections`).
+
+### Passo a passo validado (funcionou)
+
+1. Fechar o cliente.
+2. Aplicar SP no banco.
+3. Limpar sessao da conta em `UserConnection`.
+4. Reiniciar `bms_server`.
+5. Aguardar Login + Center + Games conectarem.
+6. Logar novamente.
+
+Comandos usados:
 
 ```sql
 UPDATE GameWorld.dbo.Character
-SET S_SP = S_SP + 6
+SET S_SP = 6
 WHERE CharacterName='FangBlade';
 ```
 
-Verificacao apos update:
+```sql
+DELETE FROM UserConnection.dbo.Connections
+WHERE AccountID = (
+    SELECT TOP 1 A.AccountID
+    FROM GlobalAccount.dbo.Account A
+    JOIN GameWorld.dbo.Character C ON C.AccountID = A.AccountID
+    WHERE C.CharacterName='FangBlade'
+);
+```
+
+Restart do servidor:
+
+```powershell
+docker restart bms_server
+```
+
+Verificacao apos update/restart:
 
 ```sql
 SELECT CharacterName,B_Level,B_Job,S_SP
@@ -34,6 +63,26 @@ WHERE CharacterName='FangBlade';
 ```
 
 Resultado esperado no caso atual: `S_SP = 6`.
+
+Validar se a conta realmente ficou offline antes de relogar:
+
+```sql
+SELECT *
+FROM UserConnection.dbo.Connections
+WHERE AccountID = (
+    SELECT TOP 1 A.AccountID
+    FROM GlobalAccount.dbo.Account A
+    JOIN GameWorld.dbo.Character C ON C.AccountID = A.AccountID
+    WHERE C.CharacterName='FangBlade'
+);
+```
+
+Se vier `0 rows`, a sessao foi limpa.
+
+## Sintoma comum
+
+Se o banco mostra `S_SP=6` mas no client continua antigo, quase sempre e sessao em memoria/cached.
+Nesse caso, repetir limpeza de `UserConnection` + relog (ou restart do `bms_server`).
 
 ## Plano futuro (Opcao 3 - definitiva)
 

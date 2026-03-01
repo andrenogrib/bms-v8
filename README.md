@@ -227,6 +227,20 @@ Confirme que:
 
 Apos `docker compose restart bms_server`, aguarde o `Center` completar boot.
 
+### SP alterado no banco mas nao aparece no jogo
+
+Se `S_SP` esta correto no SQL e o client continua com valor antigo:
+
+1. Feche o cliente.
+2. Limpe a sessao em `UserConnection.dbo.Connections`.
+3. Reinicie `bms_server`.
+4. Aguarde o server ficar READY (Login + Center + Game conectados).
+5. Logue novamente.
+
+Referencia detalhada:
+
+- `docs/sp-primeira-job-e-compensacao.md`
+
 ## Observacoes
 
 - Este setup e para estudo, pesquisa tecnica e preservacao de software antigo. E proibida a comercializacao, monetizacao ou qualquer uso com finalidade financeira deste material.
