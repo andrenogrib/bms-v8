@@ -1,18 +1,197 @@
+# Brazil Maple Story v8 (Docker + Client Patch) - Guia Completo
 
-# Brazil Maple Story v8 server files docker
+Este repositorio contem a estrutura de database e runtime para rodar o BMS v8 em Docker.
 
-This is the almost complete(99%) and fully functional maplestory v8 database compatible with the bms leak server files and available with docker.
+O servidor sobe no Docker, mas o login do cliente normalmente trava se o cliente for aberto "cru" (sem injecao de patch).
+O fluxo que funcionou de ponta a ponta foi:
 
-It has been reverse engineered from the binaries using `IDA` and `SQL Server Profiler`.
+1. Subir servidor e banco no Docker.
+2. Compilar `client.dll` e `GameLauncher.exe` da pasta `Extension`.
+3. Colocar os dois na pasta do cliente.
+4. Criar `server.txt`.
+5. Abrir o jogo pelo `GameLauncher.exe` (administrador).
 
-The credits goes to the developers who worked hours on it.
+## Creditos
 
-## Server files
-[Link available since 2014](https://www.mediafire.com/file/z0vkal61ymwyxlw/5366a09f4e67570decdbef93468edf19.tar.bz2)
-## Before starting
+Projeto baseado em engenharia reversa dos binarios originais com auxilio de ferramentas como IDA e SQL Profiler.
+Creditos aos devs que fizeram o trabalho original de reversao/preservacao.
 
-- Copy the `DataSvr` from the original server into `Server/DataSvr`, however keep all the already existent configuration files.
-- Copy `BinSvr` from the original server into `Server/BinSvr`.
-- Run `docker-compose up`
-- Start-up logs will be at `temp` folder.
+## Arquivos uteis
 
+- Server files leak (post antigo):
+  [https://www.mediafire.com/file/z0vkal61ymwyxlw/5366a09f4e67570decdbef93468edf19.tar.bz2](https://www.mediafire.com/file/z0vkal61ymwyxlw/5366a09f4e67570decdbef93468edf19.tar.bz2)
+- Clientes localhost prontos:
+  [https://msdl.xyz](https://msdl.xyz)
+
+## Pre-requisitos
+
+- Windows com Docker Desktop funcionando.
+- `winget` funcionando (para instalar Build Tools).
+- Cliente do Maple instalado (exemplo usado: `MapleStory.exe` original).
+
+## Estrutura esperada
+
+- `Server/DataSvr` deve conter os dados do servidor original, mantendo os arquivos de configuracao deste repo.
+- `Server/BinSvr` deve conter os binarios do servidor original.
+
+## 1) Subir servidor no Docker
+
+No root do projeto:
+
+```powershell
+docker compose up -d
+docker compose ps
+```
+
+Logs ficam em:
+
+- `temp/MSLog/Login_*.log`
+- `temp/MSLog/CenterOrion_*.log`
+- `temp/MSLog/Game*_*.log`
+
+Comando para acompanhar login:
+
+```powershell
+$f=(Get-ChildItem .\temp\MSLog\Login_*.log | Sort-Object LastWriteTime -Desc | Select-Object -First 1).FullName
+Get-Content $f -Wait
+```
+
+## 2) Instalar Build Tools (C++ + v141)
+
+Comando usado e validado:
+
+```powershell
+winget install --id Microsoft.VisualStudio.2022.BuildTools -e --source winget --accept-package-agreements --accept-source-agreements --silent --override "--quiet --wait --norestart --nocache --installPath C:\BuildTools --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.19041 --includeRecommended"
+```
+
+## 3) Compilar `client.dll` e `GameLauncher.exe`
+
+No root do projeto:
+
+```powershell
+& "C:\BuildTools\MSBuild\Current\Bin\MSBuild.exe" "Extension\WvsApp.sln" /m /t:WvsCommon;WvsClient;WvsLauncher /p:Configuration=Release;Platform=Win32;WindowsTargetPlatformVersion=10.0.19041.0 /v:minimal
+```
+
+Saidas esperadas:
+
+- `Extension\Release\client.dll`
+- `Extension\Release\GameLauncher.exe`
+
+## 4) Copiar arquivos para a pasta do cliente
+
+Exemplo de pasta usada:
+
+`C:\Users\andre\Dropbox\games\ms_server\bms_v8\MapleStory`
+
+Copiar:
+
+- `Extension\Release\client.dll` -> `MapleStory\client.dll`
+- `Extension\Release\GameLauncher.exe` -> `MapleStory\GameLauncher.exe`
+
+Criar `MapleStory\server.txt` com 2 linhas.
+
+### Opcao que funcionou no final (cliente original):
+
+```txt
+MapleStory.exe
+MapleStory.exe 127.0.0.1 8484
+```
+
+### Alternativa (cliente patchado BMSv8_2):
+
+```txt
+BMSv8_2.exe
+BMSv8_2.exe 127.0.0.1 8484
+```
+
+## 5) Abrir cliente do jeito certo
+
+Abrir sempre pelo launcher, com privilegios de administrador:
+
+```powershell
+cd C:\Users\andre\Dropbox\games\ms_server\bms_v8\MapleStory
+Start-Process -FilePath .\GameLauncher.exe -WorkingDirectory (Get-Location) -Verb RunAs
+```
+
+Importante:
+
+- Nao abrir o jogo direto pelo `MapleStory.exe`/`BMSv8_2.exe` para login final.
+- `GameLauncher.exe` precisa achar `client.dll` e `server.txt` na mesma pasta.
+
+## 6) Contas padrao
+
+Criadas pelo seed SQL:
+
+- `user / admin`
+- `admin / admin`
+
+Onde:
+
+- `admin` possui GM (`Admin = 255`).
+- `user` e conta normal.
+
+Arquivo referencia:
+
+- `Database/8-Configure.sql`
+
+## 7) Comandos GM implementados
+
+Comandos atuais no parser:
+
+- `!fm` -> vai para FM (`910000000`)
+- `!gmap` -> vai para mapa GM (`180000000`)
+- `!exp <1-5>` -> altera rate de EXP
+- `!drop <1-5>` -> altera rate de drop
+- `!rs` -> recarrega scripts
+
+Referencia:
+
+- `Extension/WvsGame/CommandParser.cpp`
+
+## 8) Sinais de que esta funcionando
+
+- `temp/MSLog/Login_*.log` mostra `Center socket connected successfully 127.0.0.1:9000`
+- `MapleStory/client.log` mostra inicializacao do `client.dll`
+
+Exemplo de `client.log` valido:
+
+- `Initializing client.dll, admin client: false`
+- `Hook status: CREATED`
+- `Client initialized`
+
+## Troubleshooting rapido
+
+### PowerShell e `start ""`
+
+No PowerShell, use:
+
+```powershell
+Start-Process -FilePath .\BMSv8_2.exe -ArgumentList '127.0.0.1','8484'
+```
+
+`start "" ...` e sintaxe de `cmd`, nao do PowerShell.
+
+### Login aceita conexao e desconecta na hora
+
+Se log mostra apenas:
+
+- `Connection accepted`
+- `Client socket disconnected`
+- `CheckPassword: 0 called`
+
+entao e mismatch de handshake (cliente sem patch).
+Confirme que:
+
+1. `client.dll`, `GameLauncher.exe` e `server.txt` estao na pasta do cliente.
+2. Esta abrindo pelo `GameLauncher.exe`.
+3. Launcher esta rodando como admin.
+
+### Center demora apos restart
+
+Apos `docker compose restart bms_server`, aguarde o `Center` completar boot.
+
+## Observacoes
+
+- `Kinoko`/`AdminClient` nao sao necessarios para o fluxo acima funcionar.
+- `DevilMS.exe` pode crashar em alguns ambientes modernos.
+- Este setup e para estudo/preservacao de software antigo.
