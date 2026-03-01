@@ -68,6 +68,22 @@ $f=(Get-ChildItem .\temp\MSLog\Login_*.log | Sort-Object LastWriteTime -Desc | S
 Get-Content $f -Wait
 ```
 
+### Painel de monitoramento (4 janelas)
+
+```powershell
+.\Scripts\monitor\open-monitor.ps1 -StartServer
+```
+
+Opcional (single window):
+
+```powershell
+.\Scripts\monitor\open-monitor.ps1 -SingleWindow
+```
+
+Referencia completa:
+
+- `docs/monitoramento-operacao.md`
+
 ## 2) Instalar Build Tools (C++ + v141)
 
 Comando usado e validado:
