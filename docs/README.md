@@ -8,4 +8,5 @@
 - [Encoding e tags nos scripts de NPC](./encoding-e-tags-script.md)
 - [SP na 1a job e compensacao manual](./sp-primeira-job-e-compensacao.md)
 - [Eventos de aniversario: camadas e plano futuro](./eventos-aniversario-camadas-plano-futuro.md)
-- [SQL: alteracoes, restart e validacao](./sql-alteracoes-restart-e-validacao.md)
+- [SQL: sequencia segura de alteracoes](./sql-alteracoes-restart-e-validacao.md)
+- [Slots: inventario e storage](./alterar-slots-inventario-storage.md)
