@@ -4,3 +4,4 @@
 - [Como editar Mesos e NX](./editar-mesos-nx.md)
 - [Como verificar status de servicos e center](./verificar-status-servicos-center.md)
 - [Monitoramento em 4 janelas PowerShell](./monitoramento-operacao.md)
+- [Caso real: Closed Beta, Bandana e boot](./caso-closed-beta-bandana-e-boot.md)
