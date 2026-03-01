@@ -42,6 +42,19 @@ docker compose up -d
 docker compose ps
 ```
 
+Comandos rapidos (start/status/stop):
+
+```powershell
+# Startar servidor
+docker compose up -d
+
+# Ver status
+docker compose ps
+
+# Parar servidor
+docker compose down
+```
+
 Logs ficam em:
 
 - `temp/MSLog/Login_*.log`
