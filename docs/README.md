@@ -1,6 +1,8 @@
 # Docs
 
 - [Arquitetura e logica completa do projeto](./arquitetura-e-logica-completa.md)
+- [Setup aplicado: dedezin SuperGM](./dedezin-supergm-setup.md)
+- [Roadmap seguro de comandos chat (base v83)](./comandos-chat-v83-roadmap-seguro.md)
 - [GM, SuperGM, Dev e comandos](./gm-supergm-dev-comandos.md)
 - [Como editar Mesos e NX](./editar-mesos-nx.md)
 - [Como verificar status de servicos e center](./verificar-status-servicos-center.md)

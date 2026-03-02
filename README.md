@@ -182,7 +182,7 @@ Exemplo de `client.log` valido:
 
 ## 9) Cuidado com encoding e tags de script
 
-- Scripts em `Server/DataSvr/Script` podem estar em `Windows-1252` (nao UTF-8).
+- Scripts em `Server/DataSvr/Script` podem estar em encodings mistos (`Windows-1252`, Korean/EUC-KR, etc.), nao existe um padrao unico por pasta.
 - Se abrir/salvar com encoding errado, o texto pode quebrar nos arquivos.
 - As falas de NPC usam tags como:
   - `#b` (texto azul)
