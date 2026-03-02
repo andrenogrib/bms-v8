@@ -1,5 +1,6 @@
 # Docs
 
+- [Arquitetura e logica completa do projeto](./arquitetura-e-logica-completa.md)
 - [GM, SuperGM, Dev e comandos](./gm-supergm-dev-comandos.md)
 - [Como editar Mesos e NX](./editar-mesos-nx.md)
 - [Como verificar status de servicos e center](./verificar-status-servicos-center.md)

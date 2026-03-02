@@ -194,6 +194,11 @@ Referencia detalhada:
 - `docs/encoding-e-tags-script.md`
 - `docs/sp-primeira-job-e-compensacao.md`
 
+## Documentacao tecnica
+
+- Indice geral: `docs/README.md`
+- Arquitetura completa: `docs/arquitetura-e-logica-completa.md`
+
 ## Troubleshooting rapido
 
 ### PowerShell e `start ""`
