@@ -23,6 +23,7 @@ Materiais de visão global e mapeamento estrutural do projeto.
 - [GM, SuperGM, Dev e comandos](./referencias/gm-supergm-dev-comandos.md)
 - [Drops e Rewards: onde ficam no BMS v8](./referencias/drops-e-rewards-onde-ficam.md)
 - [Mobs por mapa e spawn dinamico](./referencias/mobs-por-mapa-e-spawn-dinamico.md)
+- [WZ to Web cross-ref (repositorio externo)](./referencias/wz-to-web-crossref-externo.md)
 
 ## 3) Casos (histórico e incidentes)
 
