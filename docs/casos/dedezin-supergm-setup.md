@@ -1,4 +1,4 @@
-# dedezin: setup SuperGM completo (aplicado)
+﻿# dedezin: setup SuperGM completo (aplicado)
 
 Data: 2026-03-01
 
@@ -6,10 +6,10 @@ Este documento registra a promocao do personagem `dedezin` para perfil de operac
 
 Objetivo aplicado:
 
-- conta com privilegio maximo de admin no servidor
+- conta com privilegio máximo de admin no servidor
 - personagem em `job` de SuperGM
 - level e atributos maximos seguros
-- slots de inventario e storage no limite maximo operacional
+- slots de inventario e storage no limite máximo operacional
 
 ## 1) Premissas
 
@@ -123,19 +123,21 @@ Na base atual:
 
 Ou seja: na pratica, este setup cobre os direitos de GM/SuperGM que existem neste projeto hoje.
 
-## 5) Operacao apos ajuste
+## 5) Operacao após ajuste
 
 Se o personagem estava offline, normalmente basta logar.
 
-Se houver cache/sessao antiga:
+Se houver cache/sessão antiga:
 
 1. fechar client
 2. reiniciar `bms_server`
 3. aguardar readiness completa
 4. logar novamente
 
-Referencias:
+Referências:
 
-- `docs/verificar-status-servicos-center.md`
-- `docs/sql-alteracoes-restart-e-validacao.md`
+- `docs/guias/verificar-status-servicos-center.md`
+- `docs/guias/sql-alteracoes-restart-e-validacao.md`
+
+
 

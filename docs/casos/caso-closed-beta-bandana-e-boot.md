@@ -1,14 +1,14 @@
-# Caso real: Closed Beta, Bandana Brasil e boot do servidor
+﻿# Caso real: Closed Beta, Bandana Brasil e boot do servidor
 
 Este documento registra exatamente o que aconteceu no ambiente local, o que foi alterado e como validar o servidor antes de logar.
 
 ## 1) Sintoma inicial
 
 - No NPC "Administrador do Servidor", o personagem recebia:
-  - `Voce nao participou do periodo de Closed Beta...`
+  - `Você não participou do período de Closed Beta...`
 - Ao alterar flags no banco para tentar liberar Closed Beta, o login passou a mostrar:
-  - `Contas nao verificadas serao bloqueadas depois de 7 dias...`
-- Apos restart do `bms_server`, tentativas de login antes do boot completo causavam queda/desconexao.
+  - `Contas não verificadas serão bloqueadas depois de 7 dias...`
+- Após restart do `bms_server`, tentativas de login antes do boot completo causavam queda/desconexao.
 
 ## 2) O que foi alterado no SQL
 
@@ -20,9 +20,9 @@ Foi aplicado update na conta para:
 - `AccountFlags = 1`
 - (em um momento de teste, `NeedVerification = 1`)
 
-### 2.2 Ajuste final para remover popup de verificacao
+### 2.2 Ajuste final para remover popup de verificação
 
-Para evitar o aviso de conta nao verificada:
+Para evitar o aviso de conta não verificada:
 
 - `NeedVerification = 0` nas contas locais.
 
@@ -59,10 +59,10 @@ if ( check == 1 and val != "end" ) {
 
 Motivo:
 
-- Em localhost, a checagem original de `IsClosedBetaTester` nao estava retornando `1` mesmo com flags no banco.
-- `val != "end"` evita falso negativo quando o QR record nao vem vazio, mantendo a regra de receber apenas uma vez.
+- Em localhost, a checagem original de `IsClosedBetaTester` não estava retornando `1` mesmo com flags no banco.
+- `val != "end"` evita falso negativo quando o QR record não vem vazio, mantendo a regra de receber apenas uma vez.
 
-## 4) O que voce fez que funcionou
+## 4) O que você fez que funcionou
 
 - Deu restart no servidor.
 - Tentou logar cedo e caiu algumas vezes (normal durante boot parcial).
@@ -76,7 +76,7 @@ Motivo:
 
 ## 5) Interpretacao dos logs de boot
 
-Durante inicializacao completa, e normal ver:
+Durante inicialização completa, e normal ver:
 
 - `Failed in connecting to center socket 127.0.0.1:9000` no Login
 - `Local server connected successfully ...` aparecendo por etapas no Center
@@ -96,10 +96,10 @@ Faixa pratica observada:
 
 Conclusao:
 
-- nao logar imediatamente apos restart;
+- não logar imediatamente após restart;
 - aguardar `READY=YES` no monitor antes de entrar.
 
-## 7) Procedimento recomendado apos restart
+## 7) Procedimento recomendado após restart
 
 1. Fechar cliente antes de reiniciar server.
 2. Iniciar monitor:
@@ -107,13 +107,15 @@ Conclusao:
 3. Aguardar status `READY=YES`.
 4. So entao abrir o client e logar.
 
-## 8) Comando de emergencia (sessao presa)
+## 8) Comando de emergencia (sessão presa)
 
-Se conta ficar "ja conectada" apos queda:
+Se conta ficar "já conectada" após queda:
 
 ```sql
 DELETE FROM UserConnection.dbo.Connections
 WHERE AccountID = (SELECT AccountID FROM GameWorld.dbo.Character WHERE CharacterName='FangBlade');
 ```
 
-Use apenas quando necessario.
+Use apenas quando necessário.
+
+

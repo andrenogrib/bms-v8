@@ -1,4 +1,4 @@
-# Comandos de chat: roadmap seguro (base v83 -> BMS v8)
+﻿# Comandos de chat: roadmap seguro (base v83 -> BMS v8)
 
 Data: 2026-03-01
 
@@ -10,7 +10,7 @@ Objetivo deste documento:
 
 ## 1) Estado atual do servidor
 
-Comandos ja implementados no parser custom:
+Comandos já implementados no parser custom:
 
 - `!fm`
 - `!gmap`
@@ -71,9 +71,9 @@ Risco: baixo.
 
 Viabilidade: media/alta.
 
-Caminho tecnico:
+Caminho técnico:
 
-- aproveitar rotina de incremento de mesos do servidor (`CQWUser::IncMoney`) ja mapeada no projeto.
+- aproveitar rotina de incremento de mesos do servidor (`CQWUser::IncMoney`) já mapeada no projeto.
 
 Risco:
 
@@ -98,7 +98,7 @@ Motivo:
 Recomendacao:
 
 - preferir caminho SQL controlado para ajustes "grandes".
-- depois criar comando in-game apenas se mapear funcoes internas com seguranca.
+- depois criar comando in-game apenas se mapear funções internas com seguranca.
 
 ### 4.2 `!warpto <player>` / `!summon <player>`
 
@@ -110,7 +110,7 @@ Motivo:
 
 Recomendacao:
 
-- fase posterior, apos mapear manager de usuarios online no binario.
+- fase posterior, após mapear manager de usuarios online no binário.
 
 ## 5) O que NAO vale implementar agora (alto risco ou escopo grande)
 
@@ -119,22 +119,22 @@ Recomendacao:
 Motivo:
 
 - dependem de pipeline interna de criacao de item/SN/locker/packets.
-- alto risco de corromper inventario se pular funcoes internas corretas.
+- alto risco de corromper inventario se pular funções internas corretas.
 
 Alternativa segura imediata:
 
-- SQL offline com procedimento documentado + relog/restart quando necessario.
+- SQL offline com procedimento documentado + relog/restart quando necessário.
 
 ### 5.2 `!givenx` / `!givems` via chat global
 
 Motivo:
 
 - para NX via comando in-game e melhor ter wrapper DB interno robusto.
-- sem isso, implementacao pode ficar fragil (race, inconsistencia entre sessao e DB).
+- sem isso, implementacao pode ficar fragil (race, inconsistencia entre sessão e DB).
 
 Alternativa segura imediata:
 
-- usar SQL (ja documentado em `docs/editar-mesos-nx.md`).
+- usar SQL (já documentado em `docs/guias/editar-mesos-nx.md`).
 
 ### 5.3 Comandos admin de infraestrutura (`!addchannel`, `!addworld`, `!shutdown`, etc)
 
@@ -144,17 +144,17 @@ Motivo:
 
 Recomendacao:
 
-- manter via operacao Docker/SQL, nao via chat, nesta fase.
+- manter via operacao Docker/SQL, não via chat, nesta fase.
 
 ## 6) Plano recomendado (faseado)
 
-## Fase 1 (segura, proxima sessao)
+## Fase 1 (segura, proxima sessão)
 
 Implementar:
 
 1. `!help` / `!commands`
 2. `!warp <mapId>`
-3. aliases de comandos ja existentes
+3. aliases de comandos já existentes
 4. `!meso <valor>` com limite
 
 Meta:
@@ -171,11 +171,11 @@ Estudar e implementar com teste forte:
 
 Somente se:
 
-- houver funcao interna segura para persistencia/sync.
+- houver função interna segura para persistencia/sync.
 
 ## Fase 3 (avancada)
 
-Somente apos mapear internals de item/user manager:
+Somente após mapear internals de item/user manager:
 
 1. `!item` / `!drop`
 2. `!warpto <player>` / `!summon <player>`
@@ -199,4 +199,5 @@ Melhor estrategia:
 - primeiro comandos administrativos de baixo risco (help, warp, aliases, meso com limite)
 - depois status/level/SP/AP com mapeamento seguro
 - deixar item/NX/infra pesada para fase posterior
+
 

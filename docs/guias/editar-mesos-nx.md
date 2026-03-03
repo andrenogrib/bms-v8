@@ -1,4 +1,4 @@
-# Como editar Mesos e NX de um personagem
+﻿# Como editar Mesos e NX de um personagem
 
 Este guia usa o container `bmsdb` (SQL Server no Docker) e altera por `CharacterName`.
 
@@ -28,7 +28,7 @@ Se preferir adicionar ao valor atual, use `+`.
 docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "UPDATE GameWorld.dbo.Character SET S_Money = S_Money + 10000000 WHERE CharacterName='FangBlade'; UPDATE A SET NexonCash = ISNULL(NexonCash,0) + 10000, maplePoint = ISNULL(maplePoint,0) + 10000 FROM GlobalAccount.dbo.Account A JOIN GameWorld.dbo.Character C ON C.AccountID=A.AccountID WHERE C.CharacterName='FangBlade';"
 ```
 
-## 5) Validar depois da alteracao
+## 5) Validar depois da alteração
 
 ```powershell
 docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "SELECT C.CharacterName,C.S_Money,A.NexonCash,A.maplePoint FROM GameWorld.dbo.Character C JOIN GlobalAccount.dbo.Account A ON A.AccountID=C.AccountID WHERE C.CharacterName='FangBlade';"
@@ -36,7 +36,7 @@ docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00
 
 ## 6) Se os mesos "voltarem" para o valor antigo
 
-Isso normalmente acontece quando o servidor ainda nao terminou de iniciar e/ou a sessao ainda esta sendo atualizada enquanto voce testa.
+Isso normalmente acontece quando o servidor ainda não terminou de iniciar e/ou a sessão ainda esta sendo atualizada enquanto você testa.
 
 Fluxo que foi validado:
 
@@ -44,16 +44,16 @@ Fluxo que foi validado:
 2. Esperar o servidor ficar 100% online (Login + Center + Games + Shop conectados).
 3. So depois abrir o client e entrar.
 
-Sem usar limpeza forcada de conexao e sem restart extra.
+Sem usar limpeza forcada de conexão e sem restart extra.
 
-Referencias do checklist de status:
+Referências do checklist de status:
 
-- `docs/verificar-status-servicos-center.md`
+- `docs/guias/verificar-status-servicos-center.md`
 
 ## Observacoes
 
 - `S_Money`, `NexonCash` e `maplePoint` sao `int`. Evite passar de `2147483647`.
-- Se o personagem nao aparecer no `SELECT`, confirme o nome exato:
+- Se o personagem não aparecer no `SELECT`, confirme o nome exato:
 
 ```powershell
 docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "SELECT TOP 50 CharacterName FROM GameWorld.dbo.Character ORDER BY CharacterID DESC;"
@@ -64,3 +64,6 @@ Comando opcional para garantir que Mesos e NX ficaram como esperado:
 ```powershell
 docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "SELECT C.CharacterName,C.S_Money,A.NexonCash,A.maplePoint FROM GameWorld.dbo.Character C JOIN GlobalAccount.dbo.Account A ON A.AccountID=C.AccountID WHERE C.CharacterName='FangBlade';"
 ```
+
+
+

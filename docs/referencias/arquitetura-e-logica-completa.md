@@ -1,8 +1,8 @@
-# BMS v8: arquitetura e logica completa
+﻿# BMS v8: arquitetura e lógica completa
 
-Data de referencia desta analise: 2026-03-01.
+Data de referência desta análise: 2026-03-01.
 
-Este documento consolida a visao tecnica completa do projeto, incluindo:
+Este documento consolida a visao técnica completa do projeto, incluindo:
 
 - como os componentes sobem e se conectam
 - como cliente, servidor e banco conversam
@@ -13,17 +13,17 @@ Este documento consolida a visao tecnica completa do projeto, incluindo:
 
 ## 1) Objetivo e escopo
 
-Este setup existe para estudo, pesquisa tecnica e preservacao de software antigo.
+Este setup existe para estudo, pesquisa técnica e preservacao de software antigo.
 
 O projeto recria um ambiente funcional de BMS v8 usando:
 
 - runtime Windows antigo rodando em Linux via Wine (Docker)
-- binarios originais do servidor em `Server/BinSvr`
+- binários originais do servidor em `Server/BinSvr`
 - dados de jogo em `Server/DataSvr`
 - schema/procedures SQL reconstruidos em `Database`
 - patchs C++/C# em `Extension` para compatibilizar handshake/protocolo/fluxo moderno de execucao
 
-## 2) Mapa do repositorio
+## 2) Mapa do repositório
 
 Pastas principais:
 
@@ -38,8 +38,8 @@ Pastas principais:
 
 - `Server/BinSvr`: executaveis e DLLs do servidor (`WvsLogin.exe`, `WvsCenter.exe`, `WvsGame.exe`, `WvsShop.exe` etc).
 - `Server/BinSvr/Patch`: delta patches aplicados nos EXEs para carregar DLLs de extensao.
-- `Server/DataSvr`: dados de jogo, configuracoes `.img`, scripts `.s`.
-- `Server/Win32`: bootstrap antigo via `.bat` (ordem historica de inicializacao).
+- `Server/DataSvr`: dados de jogo, configurações `.img`, scripts `.s`.
+- `Server/Win32`: bootstrap antigo via `.bat` (ordem historica de inicialização).
 - `Server/start-server.sh`: startup no container `bms_server`.
 
 ### `Database/`
@@ -126,10 +126,10 @@ Passos:
 
 Comportamento esperado:
 
-- no inicio, Login/Game/Shop podem logar falhas de conexao com Center
-- quando Center termina carga (item/map/fieldset), os demais servicos conectam
+- no inicio, Login/Game/Shop podem logar falhas de conexão com Center
+- quando Center termina carga (item/map/fieldset), os demais serviços conectam
 
-## 5) Topologia de rede e configuracao
+## 5) Topologia de rede e configuração
 
 Arquivos ativos principais:
 
@@ -154,7 +154,7 @@ Fluxo validado:
 3. injeta `client.dll` via `CreateRemoteThread + LoadLibraryA`
 4. so depois resume o processo
 
-Sem isso, handshake/protocolo tende a quebrar no login (aceita conexao e desconecta/trava).
+Sem isso, handshake/protocolo tende a quebrar no login (aceita conexão e desconecta/trava).
 
 Arquivos:
 
@@ -179,7 +179,7 @@ Pontos principais:
 - bypass de checks/client guard
 - patch de AES no client
 - hook de envio/recebimento em `CClientSocket`
-- ajuste de `StringPool` (ex.: string de versao UI)
+- ajuste de `StringPool` (ex.: string de versão UI)
 - suporte a janela e mutex handling
 
 Resultado pratico:
@@ -189,7 +189,7 @@ Resultado pratico:
 ## 7.3 `WvsLogin` (`wvslg.dll`)
 
 - patcha AES/header/version checks
-- hooka fluxo de selecao de mundo
+- hooka fluxo de seleção de mundo
 - valida contexto admin client vs grade da conta
 
 ## 7.4 `WvsGame` (`wvsgm.dll`)
@@ -218,10 +218,10 @@ Servico TCP que atende requisicoes de cash shop:
 
 ## 8) DataSvr: dados e scripts
 
-`Server/DataSvr` contem duas grandes classes de conteudo:
+`Server/DataSvr` contém duas grandes classes de conteúdo:
 
 1. dados estruturais de jogo (`Map`, `Mob`, `Item`, `Character`, `Skill` etc)
-2. logica de script (`Script/*.s`)
+2. lógica de script (`Script/*.s`)
 
 Tamanho e densidade relevantes (aprox):
 
@@ -234,14 +234,14 @@ Tamanho e densidade relevantes (aprox):
 Observacoes:
 
 - parte dos `.img` e texto parseavel
-- parte dos `.img` e binario proprietario (nao editar como texto)
+- parte dos `.img` e binário proprietario (não editar como texto)
 - scripts `.s` podem usar encoding legado (geralmente `Windows-1252`)
 
 Referencia de API de script:
 
 - `Server/DataSvr/Script/standard.s`
 
-Esse arquivo define funcoes base como:
+Esse arquivo define funções base como:
 
 - `target.incSP`, `target.incMoney`, `inventory.incSlotCount`
 - `target.isMaster`, `target.isSuperGM`, `target.IsClosedBetaTester`
@@ -252,7 +252,7 @@ Esse arquivo define funcoes base como:
 ## 9.1 Bancos e papeis
 
 - `GlobalAccount`: contas, autenticacao, flags, pin, NX/MaplePoint
-- `UserConnection`: conexoes online e lock de sessao
+- `UserConnection`: conexoes online e lock de sessão
 - `GameWorld`: personagens, inventario, trunk, quests, guild, cash items
 - `Claim`: trilha de denuncias/logs de itens
 - `Coupon`: cupons
@@ -309,7 +309,7 @@ Estado base do personagem:
 
 ## 9.4 Procedures chave
 
-Autenticacao/sessao:
+Autenticacao/sessão:
 
 - `GlobalAccount.dbo.CheckPassword`
 - `UserConnection.dbo.TrySetUserConnect`
@@ -321,7 +321,7 @@ Criacao de personagem:
 - `GameWorld.dbo.CreateNewCharacter`
   - cria personagem
   - seta inventario inicial
-  - inicializa trunk se necessario
+  - inicializa trunk se necessário
 
 Slots/storage:
 
@@ -347,7 +347,7 @@ Cash:
 
 ## 10.2 Selecao de personagem e migracao
 
-1. Login valida/marca sessao
+1. Login valida/marca sessão
 2. Center roteia para canal (`GameXOrion`)
 3. `WvsGame` carrega estado completo do char no `GameWorld`
 
@@ -373,7 +373,7 @@ Sinais de pronto:
 - Center: `Local server connected successfully Login`
 - Center: `Local server connected successfully Game0..Game4`
 - Center: `Local server connected successfully Shop0Orion`
-- `ServerPing` contendo todos os servicos
+- `ServerPing` contendo todos os serviços
 
 Ferramenta pronta no projeto:
 
@@ -381,26 +381,26 @@ Ferramenta pronta no projeto:
 
 ## 12) Operacao segura (pratica recomendada)
 
-Para alteracoes SQL que impactam estado in-game:
+Para alterações SQL que impactam estado in-game:
 
 1. fechar client
 2. aplicar SQL
 3. validar no banco
-4. reiniciar `bms_server` se necessario para descarregar estado em memoria
+4. reiniciar `bms_server` se necessário para descarregar estado em memoria
 5. aguardar readiness completa
 6. reabrir client
 
-Quando logar cedo (antes do READY), e comum queda/DC na selecao de servidor/canal.
+Quando logar cedo (antes do READY), e comum queda/DC na seleção de servidor/canal.
 
 ## 13) Riscos e limitacoes tecnicas
 
 1. Hooks por endereco fixo: se trocar EXE base, offsets podem invalidar.
-2. Arquivos `.img` binarios: edicao textual indevida pode corromper.
+2. Arquivos `.img` binários: edicao textual indevida pode corromper.
 3. Encoding legado em scripts: salvar com encoding errado pode quebrar texto/parse.
-4. Credenciais/hash legado: nao expor publicamente.
+4. Credenciais/hash legado: não expor publicamente.
 5. Stack Wine antiga: warnings de compatibilidade existem, mas nem sempre sao falha funcional.
 
-## 14) Checklist rapido de diagnostico
+## 14) Checklist rápido de diagnostico
 
 Se travar no login:
 
@@ -408,12 +408,12 @@ Se travar no login:
 2. abrir pelo `GameLauncher.exe` como admin
 3. validar logs `Login` e `Center`
 
-Se cair na selecao de canal:
+Se cair na seleção de canal:
 
 1. confirmar se todos Game servers conectaram no Center
 2. aguardar `ServerPing` completo
 
-Se dado SQL "nao refletir" no jogo:
+Se dado SQL "não refletir" no jogo:
 
 1. fechar client
 2. confirmar update em SQL
@@ -426,9 +426,12 @@ Se dado SQL "nao refletir" no jogo:
 Use este arquivo como "visao macro". Para operacao diaria, use os guias especificos em:
 
 - `docs/README.md`
-- `docs/verificar-status-servicos-center.md`
-- `docs/monitoramento-operacao.md`
-- `docs/sql-alteracoes-restart-e-validacao.md`
-- `docs/alterar-slots-inventario-storage.md`
-- `docs/gm-supergm-dev-comandos.md`
+- `docs/guias/verificar-status-servicos-center.md`
+- `docs/guias/monitoramento-operacao.md`
+- `docs/guias/sql-alteracoes-restart-e-validacao.md`
+- `docs/guias/alterar-slots-inventario-storage.md`
+- `docs/referencias/gm-supergm-dev-comandos.md`
+
+
+
 

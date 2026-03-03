@@ -1,10 +1,10 @@
-# SP na 1a Job (caso FangBlade)
+﻿# SP na 1a Job (caso FangBlade)
 
 ## Resumo do caso
 
 - Personagem: `FangBlade`
 - Estado observado: virou Gatuno (`B_Job=400`) no level 12, mas ficou com apenas 1 SP.
-- Resultado final da investigacao: nao foi perda aleatoria de SP no banco. O comportamento vem da logica atual dos scripts de job.
+- Resultado final da investigacao: não foi perda aleatoria de SP no banco. O comportamento vem da lógica atual dos scripts de job.
 
 ## Causa raiz
 
@@ -13,19 +13,19 @@ Nos scripts de 1a job, o servidor aplica somente `target.incSP(1, 0)` na troca d
 - `Server/DataSvr/Script/job2.s` (Gatuno)
 - `Server/DataSvr/Script/job.s` (Guerreiro/Mago)
 
-Ou seja: se o jogador sobe levels como Beginner e so depois faz 1a job, este source nao esta concedendo SP retroativo automatico desses levels anteriores.
+Ou seja: se o jogador sobe levels como Beginner e so depois faz 1a job, este source não esta concedendo SP retroativo automático desses levels anteriores.
 
 ## Opcao 2 (aplicada agora, sem alterar script)
 
-Foi aplicada compensacao manual no banco somente para o `FangBlade`.
+Foi aplicada compensação manual no banco somente para o `FangBlade`.
 
-Importante: para o valor aparecer no jogo, o personagem/conta precisa estar offline (sem sessao ativa em `UserConnection.dbo.Connections`).
+Importante: para o valor aparecer no jogo, o personagem/conta precisa estar offline (sem sessão ativa em `UserConnection.dbo.Connections`).
 
 ### Passo a passo validado (funcionou)
 
 1. Fechar o cliente.
 2. Aplicar SP no banco.
-3. Limpar sessao da conta em `UserConnection`.
+3. Limpar sessão da conta em `UserConnection`.
 4. Reiniciar `bms_server`.
 5. Aguardar Login + Center + Games conectarem.
 6. Logar novamente.
@@ -54,7 +54,7 @@ Restart do servidor:
 docker restart bms_server
 ```
 
-Verificacao apos update/restart:
+Verificacao após update/restart:
 
 ```sql
 SELECT CharacterName,B_Level,B_Job,S_SP
@@ -77,11 +77,11 @@ WHERE AccountID = (
 );
 ```
 
-Se vier `0 rows`, a sessao foi limpa.
+Se vier `0 rows`, a sessão foi limpa.
 
 ## Sintoma comum
 
-Se o banco mostra `S_SP=6` mas no client continua antigo, quase sempre e sessao em memoria/cached.
+Se o banco mostra `S_SP=6` mas no client continua antigo, quase sempre e sessão em memoria/cached.
 Nesse caso, repetir limpeza de `UserConnection` + relog (ou restart do `bms_server`).
 
 ## Plano futuro (Opcao 3 - definitiva)
@@ -104,3 +104,5 @@ Antes de editar `job.s`/`job2.s`:
 - evitar formatacao em massa.
 
 Isso reduz risco de corromper textos de NPC e tags de script.
+
+

@@ -1,8 +1,8 @@
-# BMS v8 - Referencia de GM, SuperGM, Dev e comandos
+﻿# BMS v8 - Referencia de GM, SuperGM, Dev e comandos
 
-Este documento resume como o projeto trata privilegios e comandos in-game, com base nos arquivos desta base.
+Este documento resume como o projeto trata privilégios e comandos in-game, com base nos arquivos desta base.
 
-## 1) Resumo rapido
+## 1) Resumo rápido
 
 - `GlobalAccount.dbo.Account.Admin` controla o nivel de admin da conta.
 - No runtime, `m_nGradeCode` (derivado do login) e usado para liberar comandos.
@@ -26,22 +26,22 @@ Arquivo: `Database/4-GlobalAccount.sql`
 - Procedure `CheckPassword` retorna `@Admin`, `@AccountFlags`, `@NeedVerification`.
 - Em ranking, contas `Admin IN (1, 255)` sao filtradas como staff.
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Database/4-GlobalAccount.sql:139` (`Admin`).
 - `Database/4-GlobalAccount.sql:357` (`CheckPassword`).
 - `Database/4-GlobalAccount.sql:402` (`@Admin = Admin`).
 - `Database/4-GlobalAccount.sql:594` (`Admin IN (1, 255)`).
 
-### Seed inicial (contas padrao)
+### Seed inicial (contas padrão)
 
 Arquivo: `Database/8-Configure.sql`
 
-- Cria conta `user` (nao admin).
+- Cria conta `user` (não admin).
 - Cria conta `admin` com `Admin = 255`.
 - Hash usado no seed para senha `admin`: `21232f297a57a5a743894a0e4a801fc3` (MD5).
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Database/8-Configure.sql:45` (insert de `user`).
 - `Database/8-Configure.sql:89` (insert de `admin`).
@@ -61,7 +61,7 @@ Regras vistas:
 - Teleporte GM (`/m`) usa check equivalente (`== 1 || == 255`).
 - Parser de comando custom usa `if (user->m_nGradeCode & 1)`.
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Extension/WvsLogin/CClientSocket.cpp:46`
 - `Extension/WvsGame/CUser.cpp:12`
@@ -83,9 +83,9 @@ Achados:
 - Script `levelUP` (NPC) promove para GM:
   - se `isSuperGM == 1` -> job `510`
   - senao -> job `500`
-- Scripts de evento usam `isSuperGM == 1` para funcoes administrativas.
+- Scripts de evento usam `isSuperGM == 1` para funções administrativas.
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Server/DataSvr/Script/standard.s:83`
 - `Server/DataSvr/Script/standard.s:85`
@@ -110,7 +110,7 @@ E nomes como:
 - `WizetDev2External`
 - `LUISAGM1` ate `LUISAGM6`
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Server/DataSvr/IPCheck.img:7`
 - `Server/DataSvr/IPCheck.img:8`
@@ -122,9 +122,9 @@ Pontos de referencia:
 Complemento no extension:
 
 - Game e Shop forcam comportamento de admin client e bypass de CRC.
-- `Extension/WvsClient/Tools.cpp` contem detector de admin client.
+- `Extension/WvsClient/Tools.cpp` contém detector de admin client.
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Extension/WvsGame/Entrypoint.cpp:37`
 - `Extension/WvsGame/Entrypoint.cpp:46`
@@ -144,7 +144,7 @@ Arquivo: `Extension/WvsGame/CommandParser.cpp`
 - `!drop <1-5>` -> altera rate de drop
 - `!rs` -> recarrega scripts `../DataSvr/Script/*.s`
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Extension/WvsGame/CommandParser.cpp:8`
 - `Extension/WvsGame/CommandParser.cpp:35`
@@ -158,7 +158,7 @@ Pontos de referencia:
 - `/m` (restrito a GM por check de teleporte).
 - `/findhm` (comentado no hook do center para evitar crash).
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Extension/WvsGame/WvsGame.cpp:22`
 - `Extension/WvsGame/WvsGame.cpp:28`
@@ -178,14 +178,14 @@ Exemplos:
 Arquivo: `Database/7-GameWorld.sql`
 
 - Procedure `CreateNewCharacter` cria personagem normal.
-- Nao ha elevacao automatica de GM nessa procedure.
+- Não ha elevacao automatica de GM nessa procedure.
 - GM/SuperGM e algo aplicado depois (conta e/ou script/job).
 
-Ponto de referencia:
+Ponto de referência:
 
 - `Database/7-GameWorld.sql:1932`
 
-## 7) Consultas SQL de referencia
+## 7) Consultas SQL de referência
 
 ### Ver contas e niveis
 
@@ -230,9 +230,9 @@ SET B_Job = 510
 WHERE CharacterName = 'seu_char';
 ```
 
-Importante: job `500/510` sozinho nao substitui `Account.Admin` para os comandos `!` do extension.
+Importante: job `500/510` sozinho não substitui `Account.Admin` para os comandos `!` do extension.
 
-## 8) Observacao de possivel bug no SQL
+## 8) Observacao de possível bug no SQL
 
 Em `SetUserBlockedByCharacterName` existe:
 
@@ -242,12 +242,12 @@ SELECT @CurrentIP = CurrentIP, @GradeCode = @GradeCode FROM Account WHERE Accoun
 
 Isso parece auto-atribuicao de `@GradeCode`, provavelmente deveria ler um campo da conta (ex.: `Admin`).
 
-Pontos de referencia:
+Pontos de referência:
 
 - `Database/4-GlobalAccount.sql:649`
 - `Database/4-GlobalAccount.sql:672`
 
-## 9) Como atualizar esta referencia no futuro
+## 9) Como atualizar esta referência no futuro
 
 Quando adicionar novos comandos ou alterar regra de GM:
 
@@ -256,4 +256,6 @@ Quando adicionar novos comandos ou alterar regra de GM:
    - `rg -n "m_nGradeCode|isAdmin|!|/m|/findhm" Extension`
    - `rg -n "isMaster|isSuperGM|nJob >= 500|nJob == 500|nJob = 510" Server/DataSvr/Script`
 3. Atualize este arquivo em `docs/`.
+
+
 

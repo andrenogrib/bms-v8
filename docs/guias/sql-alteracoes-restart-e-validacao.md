@@ -1,16 +1,16 @@
-# Alteracoes SQL: sequencia segura e validacao
+﻿# Alteracoes SQL: sequência segura e validação
 
 Data: 2026-03-01
 
-Guia geral para qualquer alteracao manual no banco que afete o jogo.
+Guia geral para qualquer alteração manual no banco que afete o jogo.
 
 Regra operacional adotada:
 
 - Sempre que alterar SQL para efeito in-game, reinicie o `bms_server` e valide readiness antes de logar.
 
-No ambiente atual, em varios casos a mudanca fica no banco mas a sessao ativa do jogo nao reflete imediatamente sem restart/relogin.
+No ambiente atual, em varios casos a mudanca fica no banco mas a sessão ativa do jogo não reflete imediatamente sem restart/relogin.
 
-## Sequencia segura (padrao)
+## Sequencia segura (padrão)
 
 1. Fechar o cliente do jogo.
 2. Conferir o valor atual no SQL (baseline).
@@ -20,7 +20,7 @@ No ambiente atual, em varios casos a mudanca fica no banco mas a sessao ativa do
 6. Aguardar `READY=YES`.
 7. Abrir o cliente e validar in-game.
 
-## Template de alteracao segura
+## Template de alteração segura
 
 Use este modelo e adapte a tabela/campos:
 
@@ -33,7 +33,7 @@ BEGIN TRAN;
 -- 2) update
 -- UPDATE ... SET ... WHERE ...
 
--- 3) validacao imediata
+-- 3) validação imediata
 -- SELECT ... WHERE ...
 
 COMMIT;
@@ -45,7 +45,7 @@ Se algo inesperado acontecer durante o teste SQL:
 ROLLBACK;
 ```
 
-## Checklist de validacao apos restart
+## Checklist de validação após restart
 
 1. `docker compose ps` deve mostrar `bmsdb` healthy e `bms_server` up.
 2. Monitor de boot deve chegar em `READY=YES`.
@@ -63,7 +63,7 @@ docker compose ps
 - Evite fazer update com cliente aberto.
 - Evite logar durante boot parcial do servidor.
 - Prefira mudancas pequenas e testadas em etapas.
-- Sempre salvar o SQL executado no historico (doc/comentario/arquivo).
+- Sempre salvar o SQL executado no histórico (doc/comentario/arquivo).
 
 ## Rollback operacional
 
@@ -76,4 +76,6 @@ Se a mudanca causar comportamento ruim:
 
 ## Guias especificos relacionados
 
-- Slots de inventario e storage: `docs/alterar-slots-inventario-storage.md`
+- Slots de inventario e storage: `docs/guias/alterar-slots-inventario-storage.md`
+
+

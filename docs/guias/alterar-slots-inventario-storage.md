@@ -1,4 +1,4 @@
-# Como alterar slots de inventario e storage
+﻿# Como alterar slots de inventario e storage
 
 Data: 2026-03-01
 
@@ -37,7 +37,7 @@ Observacoes:
 docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "SET NOCOUNT ON; SELECT C.CharacterName,S.Equip_slot,S.Use_slot,S.Setup_slot,S.Etc_slot,S.Cash_slot,T.Slots AS TrunkSlots FROM GameWorld.dbo.Character C LEFT JOIN GameWorld.dbo.ItemSlot_Size S ON S.CharacterID=C.CharacterID LEFT JOIN GameWorld.dbo.Trunk T ON T.AccountID=C.AccountID WHERE C.CharacterName IN ('FangBlade','dedezin');"
 ```
 
-## 2) Aplicar maximo para 1 personagem
+## 2) Aplicar máximo para 1 personagem
 
 Exemplo (`FangBlade`):
 
@@ -65,7 +65,7 @@ Entrar apenas quando aparecer:
 - `ServerPingFull=YES`
 - `READY=YES`
 
-## 5) Ajuste para valor customizado (nao maximo)
+## 5) Ajuste para valor customizado (não máximo)
 
 Troque os numeros no `UPDATE` respeitando os limites:
 
@@ -89,7 +89,7 @@ Depois: reiniciar `bms_server` e validar.
 
 ## Troubleshooting
 
-Se mudou no banco mas nao apareceu no jogo:
+Se mudou no banco mas não apareceu no jogo:
 
 1. Confirme o nome do personagem correto.
 2. Confirme se o char testado e da conta atual.
@@ -97,7 +97,9 @@ Se mudou no banco mas nao apareceu no jogo:
 4. Aguarde `READY=YES`.
 5. Entre novamente.
 
-Se storage nao mudou:
+Se storage não mudou:
 
 - Verifique se o char da consulta e da mesma conta.
-- Lembre que `Trunk` usa `AccountID`, nao `CharacterID`.
+- Lembre que `Trunk` usa `AccountID`, não `CharacterID`.
+
+

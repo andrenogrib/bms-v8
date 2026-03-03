@@ -1,17 +1,17 @@
-# Retrospectiva tecnica: tentativa de comandos de chat (2026-03-02)
+﻿# Retrospectiva técnica: tentativa de comandos de chat (2026-03-02)
 
 Data: 2026-03-02
 
-Objetivo da sessao:
+Objetivo da sessão:
 
 - implementar a "fase segura" de comandos de chat no `Extension/WvsGame`
 - manter risco baixo (sem editar scripts `.s`, sem mexer em WZ/EXE do client)
 
-Status final desta sessao:
+Status final desta sessão:
 
 - tudo que foi testado nesta rodada foi revertido para o estado do `git HEAD`
-- servidor reiniciado apos rollback
-- base voltou para estado estavel anterior
+- servidor reiniciado após rollback
+- base voltou para estado estável anterior
 
 ---
 
@@ -55,17 +55,17 @@ Arquivos envolvidos:
 Comportamento:
 
 - comando aceitava valor
-- cliente nao mostrava mudanca imediata
+- cliente não mostrava mudanca imediata
 - depois de relog, valor aparecia atualizado
 
 Causa:
 
-- alteracao server-side ocorria via `IncMoney`
+- alteração server-side ocorria via `IncMoney`
 - faltava forcar refresh de stat no cliente na mesma hora
 
 Correcao identificada:
 
-- apos `IncMoney(...)`, chamar `SendCharacterStat(1, 0)`
+- após `IncMoney(...)`, chamar `SendCharacterStat(1, 0)`
 
 ---
 
@@ -74,7 +74,7 @@ Correcao identificada:
 Comportamento:
 
 - mensagem de sucesso no chat
-- efeitos visuais/icone de buff nao apareciam
+- efeitos visuais/icone de buff não apareciam
 
 Tentativa inicial:
 
@@ -86,8 +86,8 @@ Tentativa inicial:
 
 Causa provavel:
 
-- esse caminho nao reproduz o mesmo pipeline do `User.giveBuff(integer)` usado em script
-- resultado: estado parcial/nao visivel para o cliente
+- esse caminho não reproduz o mesmo pipeline do `User.giveBuff(integer)` usado em script
+- resultado: estado parcial/não visivel para o cliente
 
 ---
 
@@ -99,19 +99,19 @@ Comportamento:
 
 Causa:
 
-- validacao estava com `GetField(mapId, 0, 0)` (sem force load)
-- portal usado podia nao ser o melhor fallback para todos os mapas
+- validação estava com `GetField(mapId, 0, 0)` (sem force load)
+- portal usado podia não ser o melhor fallback para todos os mapas
 
 Correcao identificada:
 
-- usar `GetField(mapId, 1, 0)` para forcar load na validacao
+- usar `GetField(mapId, 1, 0)` para forcar load na validação
 - usar portal fallback mais generico (`"00"`)
 
 ---
 
-## 4) Reverse engineering que foi feito nesta sessao
+## 4) Reverse engineering que foi feito nesta sessão
 
-Foi feita investigacao no `WvsGame.exe` (disassembly) para mapear funcoes de script da camada `User.*`.
+Foi feita investigacao no `WvsGame.exe` (disassembly) para mapear funções de script da camada `User.*`.
 
 Achados relevantes:
 
@@ -123,18 +123,18 @@ Achados relevantes:
 Descoberta importante:
 
 - o caminho de `giveBuff` usa pipeline interno completo (skill lookup + stat packet + stat changed + efeito)
-- isso reforca que `ApplyTemporaryStat` nao e equivalente ao comando de script para o caso desejado
+- isso reforca que `ApplyTemporaryStat` não e equivalente ao comando de script para o caso desejado
 
 ---
 
 ## 5) Tentativa de correcao avancada (`GiveBuff` nativo)
 
-Foi montada uma funcao wrapper em `CUser` para tentar chamar o mesmo caminho interno de `User.giveBuff`.
+Foi montada uma função wrapper em `CUser` para tentar chamar o mesmo caminho interno de `User.giveBuff`.
 
 Pontos dessa tentativa:
 
 - skill lookup pelo singleton de `SkillInfo`
-- aplicacao por funcao interna de skill/buff
+- aplicacao por função interna de skill/buff
 - envio de `SendCharacterStat`
 - envio de pacote de stat changed
 
@@ -164,17 +164,17 @@ docker compose restart bms_server
 git status --short
 ```
 
-Estado apos rollback:
+Estado após rollback:
 
 - `git status` limpo
-- servidor reiniciado com binario da versao estavel
+- servidor reiniciado com binário da versão estável
 
 ---
 
 ## 7) Licoes aprendidas
 
 - para comandos que alteram stats/economia, sempre validar sync imediato com cliente
-- para buffs, priorizar caminho nativo de script (`giveBuff`) e nao atalhos sem pacote completo
+- para buffs, priorizar caminho nativo de script (`giveBuff`) e não atalhos sem pacote completo
 - `warp` precisa validar com mapa carregavel (force load), senao falha falso-negativo
 - implementar muitos comandos de uma vez aumenta custo de debug em stack antiga
 
@@ -186,7 +186,7 @@ Sequencia proposta:
 
 1. `!help` e `!commands` (somente listagem)
 2. `!meso` com refresh imediato de stat
-3. `!warp` com validacao force-load
+3. `!warp` com validação force-load
 4. `!buffme` (so depois de escolher caminho final: wrapper `giveBuff` ou fallback por script)
 5. `!level`
 6. `!ap`
@@ -196,15 +196,15 @@ Sequencia proposta:
 Regra operacional:
 
 - 1 comando por commit
-- build/deploy/teste rapido
-- so avancar apos teste manual aprovado
+- build/deploy/teste rápido
+- so avancar após teste manual aprovado
 
-Checklist minimo por comando:
+Checklist mínimo por comando:
 
 - comando retorna mensagem clara de sucesso/erro
 - valor muda no cliente sem relog (quando aplicavel)
 - sem crash ao trocar canal/mapa
-- sem regressao em login/selecao de personagem
+- sem regressao em login/seleção de personagem
 
 ---
 
@@ -214,14 +214,16 @@ Durante restarts apareceram mensagens de Wine/heap no container em alguns moment
 
 Interpretacao:
 
-- ambiente ja e sensivel por natureza (stack antiga em Wine)
+- ambiente já e sensivel por natureza (stack antiga em Wine)
 - por isso, estrategia incremental e obrigatoria para reduzir risco de falso diagnostico
 
 ---
 
 ## 10) Regras mantidas
 
-- nao editar `.s` nesta frente de comandos (evitar risco de encoding)
+- não editar `.s` nesta frente de comandos (evitar risco de encoding)
 - manter comandos de maior risco (`NX`, `dropitem`, itens custom) para fase posterior
 - preservar snapshot funcional antes de mudancas grandes
+
+
 

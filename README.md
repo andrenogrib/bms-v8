@@ -1,22 +1,22 @@
-# Brazil Maple Story v8 (Docker + Client Patch) - Guia Completo
+﻿# Brazil Maple Story v8 (Docker + Client Patch) - Guia Completo
 
-Este repositorio contem a estrutura de database e runtime para rodar o BMS v8 em Docker.
+Este repositório contém a estrutura de banco e runtime para rodar o BMS v8 em Docker.
 
-O servidor sobe no Docker, mas o login do cliente normalmente trava se o cliente for aberto "cru" (sem injecao de patch).
-O fluxo que funcionou de ponta a ponta foi:
+O servidor sobe no Docker, mas o login do cliente costuma travar se o cliente for aberto "cru" (sem injeção de patch).
+O fluxo validado de ponta a ponta foi:
 
 1. Subir servidor e banco no Docker.
-2. Compilar `client.dll` e `GameLauncher.exe` da pasta `Extension`.
-3. Colocar os dois na pasta do cliente.
+2. Compilar `client.dll` e `GameLauncher.exe` na pasta `Extension`.
+3. Copiar os arquivos para a pasta do cliente.
 4. Criar `server.txt`.
 5. Abrir o jogo pelo `GameLauncher.exe` (administrador).
 
-Importante: neste setup validado, o cliente usado foi o `MapleStory.exe` original.
+Importante: no setup validado, o cliente utilizado foi o `MapleStory.exe` original.
 
-## Creditos
+## Créditos
 
-Projeto baseado em engenharia reversa dos binarios originais com auxilio de ferramentas como IDA e SQL Profiler.
-Creditos aos devs que fizeram o trabalho original de reversao/preservacao.
+Projeto baseado em engenharia reversa dos binários originais, com auxílio de ferramentas como IDA e SQL Profiler.
+Créditos aos devs que realizaram o trabalho original de reversão e preservação.
 
 ## Server files
 
@@ -30,22 +30,22 @@ Creditos aos devs que fizeram o trabalho original de reversao/preservacao.
 
 ## Estrutura esperada
 
-- `Server/DataSvr` deve conter os dados do servidor original, mantendo os arquivos de configuracao deste repo.
-- `Server/BinSvr` deve conter os binarios do servidor original.
+- `Server/DataSvr` deve conter os dados do servidor original, mantendo os arquivos de configuração deste repositório.
+- `Server/BinSvr` deve conter os binários originais do servidor.
 
 ## 1) Subir servidor no Docker
 
-No root do projeto:
+No diretório raiz do projeto:
 
 ```powershell
 docker compose up -d
 docker compose ps
 ```
 
-Comandos rapidos (start/status/stop):
+Comandos rápidos (start/status/stop):
 
 ```powershell
-# Startar servidor
+# Iniciar servidor
 docker compose up -d
 
 # Ver status
@@ -55,59 +55,49 @@ docker compose ps
 docker compose down
 ```
 
-Logs ficam em:
+## 2) Monitoramento (recomendado)
 
-- `temp/MSLog/Login_*.log`
-- `temp/MSLog/CenterOrion_*.log`
-- `temp/MSLog/Game*_*.log`
-
-Comando para acompanhar login:
-
-```powershell
-$f=(Get-ChildItem .\temp\MSLog\Login_*.log | Sort-Object LastWriteTime -Desc | Select-Object -First 1).FullName
-Get-Content $f -Wait
-```
-
-### Painel de monitoramento (4 janelas)
+Painel com 4 janelas:
 
 ```powershell
 .\Scripts\monitor\open-monitor.ps1 -StartServer
 ```
 
-Opcional (single window):
+Modo janela única:
 
 ```powershell
 .\Scripts\monitor\open-monitor.ps1 -SingleWindow
 ```
 
-Referencia completa:
+Guia completo:
 
-- `docs/monitoramento-operacao.md`
+- `docs/guias/subir-servidor-e-monitoramento.md`
+- `docs/guias/monitoramento-operacao.md`
 
-## 2) Instalar Build Tools (C++ + v141)
+## 3) Instalar Build Tools (C++ + v141)
 
-Comando usado e validado:
+Comando validado:
 
 ```powershell
 winget install --id Microsoft.VisualStudio.2022.BuildTools -e --source winget --accept-package-agreements --accept-source-agreements --silent --override "--quiet --wait --norestart --nocache --installPath C:\BuildTools --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.19041 --includeRecommended"
 ```
 
-## 3) Compilar `client.dll` e `GameLauncher.exe`
+## 4) Compilar `client.dll` e `GameLauncher.exe`
 
-No root do projeto:
+No diretório raiz do projeto:
 
 ```powershell
 & "C:\BuildTools\MSBuild\Current\Bin\MSBuild.exe" "Extension\WvsApp.sln" /m /t:WvsCommon;WvsClient;WvsLauncher /p:Configuration=Release;Platform=Win32;WindowsTargetPlatformVersion=10.0.19041.0 /v:minimal
 ```
 
-Saidas esperadas:
+Saídas esperadas:
 
 - `Extension\Release\client.dll`
 - `Extension\Release\GameLauncher.exe`
 
-## 4) Copiar arquivos para a pasta do cliente
+## 5) Copiar arquivos para a pasta do cliente
 
-Exemplo de pasta usada:
+Exemplo:
 
 `C:\Users\andre\Dropbox\games\ms_server\bms_v8\MapleStory`
 
@@ -116,18 +106,16 @@ Copiar:
 - `Extension\Release\client.dll` -> `MapleStory\client.dll`
 - `Extension\Release\GameLauncher.exe` -> `MapleStory\GameLauncher.exe`
 
-Criar `MapleStory\server.txt` com 2 linhas.
-
-### Opcao que funcionou no final (cliente original):
+Criar `MapleStory\server.txt` com 2 linhas:
 
 ```txt
 MapleStory.exe
 MapleStory.exe 127.0.0.1 8484
 ```
 
-## 5) Abrir cliente do jeito certo
+## 6) Abrir o cliente corretamente
 
-Abrir sempre pelo launcher, com privilegios de administrador:
+Abrir sempre pelo launcher, com privilégios de administrador:
 
 ```powershell
 cd C:\Users\andre\Dropbox\games\ms_server\bms_v8\MapleStory
@@ -136,10 +124,10 @@ Start-Process -FilePath .\GameLauncher.exe -WorkingDirectory (Get-Location) -Ver
 
 Importante:
 
-- Nao abrir o jogo direto pelo `MapleStory.exe` para login final.
-- `GameLauncher.exe` precisa achar `client.dll` e `server.txt` na mesma pasta.
+- Não abrir o jogo direto por `MapleStory.exe` para o login final.
+- `GameLauncher.exe` precisa encontrar `client.dll` e `server.txt` na mesma pasta.
 
-## 6) Contas padrao
+## 7) Contas padrão
 
 Criadas pelo seed SQL:
 
@@ -151,55 +139,61 @@ Onde:
 - `admin` possui GM (`Admin = 255`).
 - `user` e conta normal.
 
-Arquivo referencia:
+Referência:
 
 - `Database/8-Configure.sql`
 
-## 7) Comandos GM implementados
+## 8) Comandos GM atuais
 
-Comandos atuais no parser:
-
-- `!fm` -> vai para FM (`910000000`)
-- `!gmap` -> vai para mapa GM (`180000000`)
+- `!fm` -> teleporta para FM (`910000000`)
+- `!gmap` -> teleporta para mapa GM (`180000000`)
 - `!exp <1-5>` -> altera rate de EXP
 - `!drop <1-5>` -> altera rate de drop
 - `!rs` -> recarrega scripts
 
-Referencia:
+Referência:
 
 - `Extension/WvsGame/CommandParser.cpp`
 
-## 8) Sinais de que esta funcionando
+## 9) Sinais de que está funcionando
 
-- `temp/MSLog/Login_*.log` mostra `Center socket connected successfully 127.0.0.1:9000`
-- `MapleStory/client.log` mostra inicializacao do `client.dll`
+- `temp/MSLog/Login_*.log` contém `Center socket connected successfully 127.0.0.1:9000`.
+- `MapleStory/client.log` mostra inicialização do `client.dll`.
 
-Exemplo de `client.log` valido:
+Exemplo de `client.log` válido:
 
 - `Initializing client.dll, admin client: false`
 - `Hook status: CREATED`
 - `Client initialized`
 
-## 9) Cuidado com encoding e tags de script
+## 10) Cuidado com encoding e scripts
 
-- Scripts em `Server/DataSvr/Script` podem estar em encodings mistos (`Windows-1252`, Korean/EUC-KR, etc.), nao existe um padrao unico por pasta.
-- Se abrir/salvar com encoding errado, o texto pode quebrar nos arquivos.
-- As falas de NPC usam tags como:
-  - `#b` (texto azul)
-  - `#t<ID>#` (nome dinamico de item)
-  - `#k` (volta para cor padrao)
+- Scripts em `Server/DataSvr/Script` tem encoding misto (`Windows-1252`, EUC-KR/CP949 etc.).
+- Salvar com encoding errado pode quebrar texto e lógica.
 
-Referencia detalhada:
+Referências:
 
-- `docs/encoding-e-tags-script.md`
-- `docs/sp-primeira-job-e-compensacao.md`
+- `docs/guias/encoding-e-tags-script.md`
+- `docs/casos/sp-primeira-job-e-compensacao.md`
 
-## Documentacao tecnica
+## 11) Documentação organizada por tema
 
-- Indice geral: `docs/README.md`
-- Arquitetura completa: `docs/arquitetura-e-logica-completa.md`
+Índice geral:
 
-## Troubleshooting rapido
+- `docs/README.md`
+
+Categorias:
+
+- `docs/guias` -> passo a passo operacional
+- `docs/referencias` -> arquitetura e base técnica
+- `docs/casos` -> histórico de incidentes e aprendizados
+- `docs/planos` -> roadmap e evolução futura
+
+Próxima fase já documentada:
+
+- `docs/planos/proxima-fase-conteudo-e-comandos-sync.md`
+
+## Troubleshooting rápido
 
 ### PowerShell e `start ""`
 
@@ -209,43 +203,49 @@ No PowerShell, use:
 Start-Process -FilePath .\MapleStory.exe -ArgumentList '127.0.0.1','8484'
 ```
 
-`start "" ...` e sintaxe de `cmd`, nao do PowerShell.
+`start "" ...` e sintaxe de `cmd`, não de PowerShell.
 
-Obs.: para jogar de fato, use `GameLauncher.exe` como no passo 5.
+Obs.: para jogar, use `GameLauncher.exe`.
 
-### Login aceita conexao e desconecta na hora
+### Login conecta e desconecta em seguida
 
-Se log mostra apenas:
+Se o log mostra apenas:
 
 - `Connection accepted`
 - `Client socket disconnected`
 - `CheckPassword: 0 called`
 
-entao e mismatch de handshake (cliente sem patch).
-Confirme que:
+ha mismatch de handshake (cliente sem patch).
 
-1. `client.dll`, `GameLauncher.exe` e `server.txt` estao na pasta do cliente.
-2. Esta abrindo pelo `GameLauncher.exe`.
-3. Launcher esta rodando como admin.
+Confirme:
 
-### Center demora apos restart
+1. `client.dll`, `GameLauncher.exe` e `server.txt` na pasta do cliente.
+2. Execução via `GameLauncher.exe`.
+3. Launcher em modo administrador.
 
-Apos `docker compose restart bms_server`, aguarde o `Center` completar boot.
+### Center demora após restart
 
-### SP alterado no banco mas nao aparece no jogo
+Após `docker compose restart bms_server`, aguarde o Center concluir o boot e ficar `READY=YES`.
 
-Se `S_SP` esta correto no SQL e o client continua com valor antigo:
+### SP alterado no banco e não refletiu no jogo
+
+Se `S_SP` está correto no SQL, mas o cliente continua com valor antigo:
 
 1. Feche o cliente.
-2. Limpe a sessao em `UserConnection.dbo.Connections`.
+2. Limpe a sessão em `UserConnection.dbo.Connections`.
 3. Reinicie `bms_server`.
-4. Aguarde o server ficar READY (Login + Center + Game conectados).
-5. Logue novamente.
+4. Aguarde `READY=YES`.
+5. Entre novamente.
 
-Referencia detalhada:
+Referência:
 
-- `docs/sp-primeira-job-e-compensacao.md`
+- `docs/casos/sp-primeira-job-e-compensacao.md`
 
 ## Observacoes
 
-- Este setup e para estudo, pesquisa tecnica e preservacao de software antigo. E proibida a comercializacao, monetizacao ou qualquer uso com finalidade financeira deste material.
+Este setup e para estudo, pesquisa técnica e preservação de software antigo.
+E proibida a comercializacao, monetizacao ou qualquer uso com finalidade financeira deste material.
+
+
+
+

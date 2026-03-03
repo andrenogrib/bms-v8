@@ -1,6 +1,6 @@
-# Como verificar status de todos os servicos (antes de logar)
+﻿# Como verificar status de todos os serviços (antes de logar)
 
-Este checklist evita crash/DC na tela de escolha de world/channel quando o server ainda nao terminou de subir.
+Este checklist evita crash/DC na tela de escolha de world/channel quando o server ainda não terminou de subir.
 
 ## 1) Confirmar containers
 
@@ -46,10 +46,12 @@ Esperado no resultado:
 
 No caso validado, funcionou apenas esperando ficar tudo online.
 
-Nao foi necessario usar:
+Não foi necessário usar:
 
 ```powershell
 docker exec bmsdb /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Dong0#1sG00d" -Q "DELETE FROM UserConnection.dbo.Connections;"
 docker restart bms_server
 ```
+
+
 

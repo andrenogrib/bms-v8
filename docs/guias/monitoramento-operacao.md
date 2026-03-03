@@ -1,4 +1,4 @@
-# Monitoramento em 4 janelas PowerShell
+﻿# Monitoramento em 4 janelas PowerShell
 
 Painel operacional local para acompanhar:
 
@@ -17,9 +17,9 @@ Todos os watchers foram configurados em modo sem flicker:
 
 - `watch-debug.ps1`: realtime de verdade (`docker logs -f`).
 - `watch-login-center.ps1`: quase realtime, com leitura continua de novas linhas nos logs e avaliacao de readiness a cada ciclo.
-- `watch-health.ps1` e `watch-players.ps1`: polling controlado por `-RefreshSeconds` (padrao `2`), sem limpar tela.
+- `watch-health.ps1` e `watch-players.ps1`: polling controlado por `-RefreshSeconds` (padrão `2`), sem limpar tela.
 
-Com isso, o terminal nao fica piscando e voce ainda acompanha tudo ao vivo.
+Com isso, o terminal não fica piscando e você ainda acompanha tudo ao vivo.
 
 ## Scripts
 
@@ -57,7 +57,7 @@ Arquivos em `Scripts/monitor`:
 - stream continuo de `docker logs -f bms_server`
 - reinicia stream automaticamente se encerrar
 
-## Uso rapido
+## Uso rápido
 
 No root do projeto:
 
@@ -101,9 +101,11 @@ Quando isso aparece, pode abrir o cliente sem pressa.
 
 No fluxo testado, bastou esperar o boot completar.
 
-Nao foi necessario limpar `UserConnection.dbo.Connections` nem reiniciar o `bms_server` de novo.
+Não foi necessário limpar `UserConnection.dbo.Connections` nem reiniciar o `bms_server` de novo.
 
 ## Encerrar monitores
 
 - Feche cada janela PowerShell, ou use `Ctrl+C` em cada uma.
-- Isso nao para os containers.
+- Isso não para os containers.
+
+
