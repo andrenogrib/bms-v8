@@ -22,6 +22,10 @@ Créditos aos devs que realizaram o trabalho original de reversão e preservaç�
 
 [Link available since 2014](https://www.mediafire.com/file/z0vkal61ymwyxlw/5366a09f4e67570decdbef93468edf19.tar.bz2)
 
+Instalador do cliente v08 (`mssetup_v08`):
+
+[https://archive.org/download/maplestory_all/](https://archive.org/download/maplestory_all/)
+
 ## Before starting
 
 - Windows com Docker Desktop funcionando.
