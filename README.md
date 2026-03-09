@@ -37,6 +37,29 @@ Instalador do cliente v08 (`mssetup_v08`):
 - `Server/DataSvr` deve conter os dados do servidor original, mantendo os arquivos de configuração deste repositório.
 - `Server/BinSvr` deve conter os binários originais do servidor.
 
+## Documentação oficial do projeto
+
+A pasta `docs/` é a fonte oficial de documentação deste repositório.
+
+Índice principal:
+
+- `docs/README.md`
+
+Organização por tema:
+
+- `docs/guias` -> procedimentos passo a passo (setup, build, operação).
+- `docs/referencias` -> arquitetura, mapeamentos técnicos e consultas.
+- `docs/casos` -> histórico de incidentes reais e correções aplicadas.
+- `docs/planos` -> roadmap e evolução planejada.
+- `docs/tools` -> análise das ferramentas externas (WZ/IMG e automação).
+
+Regra prática da equipe:
+
+- Mudou fluxo de operação? Atualize `docs/guias`.
+- Descobriu comportamento técnico novo? Atualize `docs/referencias`.
+- Ocorreu erro/incidente e foi resolvido? Registre em `docs/casos`.
+- Planejou feature/refactor? Registre em `docs/planos`.
+
 ## 1) Subir servidor no Docker
 
 No diretório raiz do projeto:
@@ -141,7 +164,7 @@ Criadas pelo seed SQL:
 Onde:
 
 - `admin` possui GM (`Admin = 255`).
-- `user` e conta normal.
+- `user` é conta normal.
 
 Referência:
 
@@ -192,6 +215,7 @@ Categorias:
 - `docs/referencias` -> arquitetura e base técnica
 - `docs/casos` -> histórico de incidentes e aprendizados
 - `docs/planos` -> roadmap e evolução futura
+- `docs/tools` -> ferramentas externas e como usar no projeto
 
 Próxima fase já documentada:
 
