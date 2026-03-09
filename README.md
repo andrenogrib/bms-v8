@@ -208,6 +208,7 @@ Referências:
 Índice geral:
 
 - `docs/README.md`
+- `docs/guias/rodar-em-windows-linux-macos.md` (guia cross-platform: Windows/Linux/macOS)
 
 Categorias:
 

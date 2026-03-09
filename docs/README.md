@@ -7,6 +7,7 @@ Esta pasta está organizada por tema para reduzir risco de manutenção e facili
 Materiais didáticos, passo a passo operacional e procedimentos de rotina.
 
 - [Subir servidor e usar monitoramento](./guias/subir-servidor-e-monitoramento.md)
+- [Rodar em Windows, Linux e macOS](./guias/rodar-em-windows-linux-macos.md)
 - [Build do GameLauncher e server.txt](./guias/build-gamelauncher-e-servertxt.md)
 - [Monitoramento em 4 janelas PowerShell](./guias/monitoramento-operacao.md)
 - [Como verificar status de serviços e Center](./guias/verificar-status-servicos-center.md)
