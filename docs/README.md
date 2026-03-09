@@ -26,6 +26,7 @@ Materiais de visão global e mapeamento estrutural do projeto.
 - [Drops e Rewards: onde ficam no BMS v8](./referencias/drops-e-rewards-onde-ficam.md)
 - [Mobs por mapa e spawn dinamico](./referencias/mobs-por-mapa-e-spawn-dinamico.md)
 - [WZ to Web cross-ref (repositorio externo)](./referencias/wz-to-web-crossref-externo.md)
+- [Ferramentas WZ/IMG (submodules)](./referencias/ferramentas-wz-img-submodules.md)
 
 ## 3) Casos (histórico e incidentes)
 
@@ -43,6 +44,16 @@ Decisões de evolução futura, com fases e risco controlado.
 - [Roadmap seguro de comandos de chat (base v83)](./planos/comandos-chat-v83-roadmap-seguro.md)
 - [Eventos de aniversário: camadas e plano futuro](./planos/eventos-aniversario-camadas-plano-futuro.md)
 - [Próxima fase: conteúdo + comandos com sync estável](./planos/proxima-fase-conteudo-e-comandos-sync.md)
+
+## 5) Tools (WZ/IMG e automação)
+
+Ferramentas externas versionadas como submodule, com foco em análise, edição e automação.
+
+- [Índice de tools](./tools/README.md)
+- [Harepacker-resurrected](./tools/harepacker-resurrected.md)
+- [WzComparerR2](./tools/wzcomparerr2.md)
+- [WzImg-MCP-Server](./tools/wzimg-mcp-server.md)
+- [MapleLib](./tools/maplelib.md)
 
 ## Regra de deploy (padrão da equipe)
 

@@ -1,0 +1,12 @@
+[submodule "tools/Harepacker-resurrected"]
+	path = tools/Harepacker-resurrected
+	url = https://github.com/lastbattle/Harepacker-resurrected.git
+[submodule "tools/WzComparerR2"]
+	path = tools/WzComparerR2
+	url = https://github.com/Kagamia/WzComparerR2.git
+[submodule "tools/WzImg-MCP-Server"]
+	path = tools/WzImg-MCP-Server
+	url = https://github.com/lastbattle/WzImg-MCP-Server.git
+[submodule "tools/MapleLib"]
+	path = tools/MapleLib
+	url = https://github.com/lastbattle/MapleLib.git
