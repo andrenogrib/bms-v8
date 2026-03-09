@@ -14,6 +14,8 @@ Materiais didáticos, passo a passo operacional e procedimentos de rotina.
 - [Como editar Mesos e NX](./guias/editar-mesos-nx.md)
 - [Como alterar slots de inventário e storage](./guias/alterar-slots-inventario-storage.md)
 - [Encoding e tags nos scripts de NPC](./guias/encoding-e-tags-script.md)
+- [Usuarios e senhas padrao](./guias/usuarios-e-senhas-padrao.md)
+- [Aviso rolando no topo da tela (slide)](./guias/aviso-rolando-no-topo.md)
 
 ## 2) Referências (arquitetura e base técnica)
 
