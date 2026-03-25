@@ -44,6 +44,7 @@ A pasta `docs/` é a fonte oficial de documentação deste repositório.
 Índice principal:
 
 - `docs/README.md`
+- `docs/guias/primeira-execucao-do-zero-windows.md` (guia de instalacao do zero no Windows)
 
 Organização por tema:
 
