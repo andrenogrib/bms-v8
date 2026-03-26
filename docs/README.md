@@ -8,6 +8,7 @@ Materiais didáticos, passo a passo operacional e procedimentos de rotina.
 
 - [Subir servidor e usar monitoramento](./guias/subir-servidor-e-monitoramento.md)
 - [Primeira execucao do zero no Windows](./guias/primeira-execucao-do-zero-windows.md)
+- [Rodar via Hamachi](./guias/rodar-via-hamachi.md)
 - [Rodar em Windows, Linux e macOS](./guias/rodar-em-windows-linux-macos.md)
 - [Build do GameLauncher e server.txt](./guias/build-gamelauncher-e-servertxt.md)
 - [Monitoramento em 4 janelas PowerShell](./guias/monitoramento-operacao.md)
